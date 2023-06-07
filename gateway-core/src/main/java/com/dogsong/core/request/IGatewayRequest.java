@@ -14,9 +14,9 @@ public interface IGatewayRequest {
     /**
      * 修改域名
      *
-     * @param host 域名
+     * @param modifyHost 域名
      */
-    void setModifyHost(String host);
+    void setModifyHost(String modifyHost);
 
     /**
      * 获取域名
@@ -28,7 +28,7 @@ public interface IGatewayRequest {
      *
      * @param path 路径
      */
-    void setModifyPath(String path);
+    void setModifyPath(String modifyPath);
 
     /**
      * 获取路径
