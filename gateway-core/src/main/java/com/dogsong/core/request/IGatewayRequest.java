@@ -26,7 +26,7 @@ public interface IGatewayRequest {
     /**
      * 设置路径
      *
-     * @param path 路径
+     * @param modifyPath 路径
      */
     void setModifyPath(String modifyPath);
 
