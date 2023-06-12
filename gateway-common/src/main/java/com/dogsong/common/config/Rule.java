@@ -95,7 +95,7 @@ public class Rule implements Comparable<Rule>, Serializable {
      * @since 2023/6/12.
      */
     @Data
-    public static class FilterConfig {
+    public static class FilterConfig implements Serializable {
 
         private String id;
 
