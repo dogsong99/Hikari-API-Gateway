@@ -6,9 +6,6 @@ import com.dogsong.core.request.GatewayRequest;
 import com.dogsong.core.response.GatewayResponse;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.ReferenceCountUtil;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 网关核心上下文类
@@ -16,9 +13,6 @@ import lombok.EqualsAndHashCode;
  * @author <a href="mailto:dogsong99@gmail.com">dogsong</a>
  * @since 2023/6/6
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
-@Builder
 public class GatewayContext extends BasicContext {
 
     private final GatewayRequest request;
@@ -88,6 +82,55 @@ public class GatewayContext extends BasicContext {
     @Override
     public void setResponse(Object response) {
         this.response = (GatewayResponse) response;
+    }
+
+    public static class Builder {
+
+        private String protocol;
+
+        private ChannelHandlerContext nettyCtx;
+
+        private GatewayRequest request;
+
+        private Rule rule;
+
+        private boolean keepAlive;
+
+        public Builder() {
+        }
+
+        public Builder setProtocol(String protocol) {
+            this.protocol = protocol;
+            return this;
+        }
+
+        public Builder setNettyCtx(ChannelHandlerContext nettyCtx) {
+            this.nettyCtx = nettyCtx;
+            return this;
+        }
+
+        public Builder setGatewayRequest(GatewayRequest request) {
+            this.request = request;
+            return this;
+        }
+
+        public Builder setRule(Rule rule) {
+            this.rule = rule;
+            return this;
+        }
+
+        public Builder setKeepAlive(boolean keepAlive) {
+            this.keepAlive = keepAlive;
+            return this;
+        }
+
+        public GatewayContext build() {
+            AssertUtil.notNull(protocol, "protocol不能为空");
+            AssertUtil.notNull(nettyCtx, "nettyCtx不能为空");
+            AssertUtil.notNull(request, "request不能为空");
+            AssertUtil.notNull(rule, "rule不能为空");
+            return new GatewayContext(protocol, nettyCtx, keepAlive, request, rule);
+        }
     }
 
 }
