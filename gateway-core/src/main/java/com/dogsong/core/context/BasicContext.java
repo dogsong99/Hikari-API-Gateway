@@ -18,10 +18,10 @@ import java.util.function.Consumer;
  */
 public abstract class BasicContext implements IContext {
 
-    /** 转发协议 */
+    /** 转发协议, 例如http或dubbo等，因为是一开始就决定了，所以加上final */
     protected final String protocol;
 
-    /** 上下文状态 */
+    /** 上下文状态, 因为后面可能涉及到多线程共享，所以加上volatile关键字 */
     protected volatile int status  = IContext.RUNNING;
 
     /** Netty上下文 */
@@ -138,11 +138,16 @@ public abstract class BasicContext implements IContext {
     /**
      * 获取上下文参数
      *
-     * @param key
+     * @param key key
      */
     @Override
-    public Object getAttribute(Map<String, Object> key) {
-        return attributes.get(key);
+    public <T> T getAttribute(String key) {
+        return (T) attributes.get(key);
+    }
+
+    @Override
+    public <T> T putAttribute(String key, T value) {
+        return (T) attributes.put(key, value);
     }
 
     /**
@@ -150,14 +155,6 @@ public abstract class BasicContext implements IContext {
      */
     @Override
     public void setRule() {
-
-    }
-
-    /**
-     * 设置请求返回结果
-     */
-    @Override
-    public void setResponse() {
 
     }
 
